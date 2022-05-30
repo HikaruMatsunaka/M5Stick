@@ -3,10 +3,10 @@
 
 //SSIDとパスワード
 //※ 2.5GHz帯にしか対応していない（5GHz帯には接続できない）ので注意！
-const char* ssid     = "mac_room1"; //各自の環境に設定
-const char* password = "dept.ofa.i.d."; //各自の環境に設定
+const char* ssid     = "edunet"; //各自の環境に設定
+const char* password = "@1103Matunaka"; //各自の環境に設定
 
-const char* server_ip = "192.168.50.204"; //サーバのアドレス・各自の環境で設定
+const char* server_ip = "10.20.220.74"; //サーバのアドレス・各自の環境で設定
 const int port = 20000;
 
 WiFiClient client;
@@ -16,7 +16,7 @@ void setup() {
   M5.Lcd.setRotation(1);  //Rotate the screen.
   M5.Lcd.setTextSize(2);  //Set font size.  
 
-  //Wi-Fiへの接続
+  //Wi-Fiへの接続をしている際の文字
   M5.Lcd.print("Connecting to ");
   M5.Lcd.println(ssid);
 
@@ -48,15 +48,17 @@ void setup() {
 }
 
 void loop() {
-  M5.update(); //これを呼び出さないとボタンの状態は更新されない
+  M5.update(); //.updateを呼び出さないとボタンの状態は更新されない
 
   float pitch = 0.0F;
   float roll  = 0.0F;
   float yaw   = 0.0F;
   M5.IMU.getAhrsData(&pitch,&roll,&yaw); //市政情報の取得
-  //送信するデータの構築
+  
+  //送信する文字列（データ）を作る
   String str = String(pitch,2) + "," + String(roll,2) + "," + String(yaw,2); 
-  client.println(str);//サーバにデータを送信
+  //サーバーに文字列（データ）を送信する
+  client.println(str);
 
   //画面にデータを表示
   M5.Lcd.fillScreen(BLACK); //画面をクリア
